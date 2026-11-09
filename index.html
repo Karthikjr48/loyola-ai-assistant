@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Loyola AI Assistant Widget - Floating chatbot widget for Loyola College, Chennai">
+    <title>Loyola College - AI Assistant Widget Demo</title>
+    <link rel="icon" type="image/png" href="https://loyolacollege.edu/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS Reset & Variables ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary-blue: #1a237e;
+            --primary-blue-dark: #0d1452;
+            --primary-blue-light: #283593;
+            --accent-gold: #ffc107;
+            --accent-gold-dark: #f9a825;
+            --accent-gold-light: #fff176;
+            --bg-primary: #f5f7fb;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --text-muted: #8888a0;
+            --border-color: #e0e4ef;
+            --shadow-sm: 0 2px 8px rgba(26, 35, 126, 0.08);
+            --shadow-md: 0 4px 20px rgba(26, 35, 126, 0.12);
+            --shadow-lg: 0 8px 40px rgba(26, 35, 126, 0.18);
+            --shadow-xl: 0 12px 60px rgba(26, 35, 126, 0.22);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== Demo Page Header ===== */
+        .demo-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 50%, #0a0f3a 100%);
+            color: white;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .demo-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .demo-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .demo-nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .demo-nav-logo img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .demo-nav-logo-text h2 {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .demo-nav-logo-text p {
+            font-size: 11px;
+            opacity: 0.8;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        .demo-nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .demo-nav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .demo-nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .demo-nav-links a:hover { color: white; }
+        .demo-nav-links a:hover::after { width: 100%; }
+
+        /* ===== Hero Section ===== */
+        .demo-hero {
+            padding: 80px 40px 100px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .demo-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent-gold-light);
+            margin-bottom: 24px;
+        }
+
+        .demo-hero h1 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .demo-hero h1 span {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .demo-hero p {
+            font-size: 18px;
+            max-width: 640px;
+            margin: 0 auto 32px;
+            opacity: 0.85;
+            line-height: 1.7;
+        }
+
+        .demo-hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 48px;
+        }
+
+        .demo-stat {
+            text-align: center;
+        }
+
+        .demo-stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+
+        .demo-stat-label {
+            font-size: 13px;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        /* ===== Info Cards ===== */
+        .demo-cards {
+            padding: 60px 40px 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .demo-cards-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary-blue);
+        }
+
+        .demo-cards-subtitle {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .demo-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .demo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .demo-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .demo-card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, rgba(26, 35, 126, 0.08), rgba(26, 35, 126, 0.04));
+        }
+
+        .demo-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .demo-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== Demo Footer ===== */
+        .demo-footer {
+            background: var(--primary-blue-dark);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 24px 40px;
+            font-size: 13px;
+        }
+
+        /* ===== Widget Styles ===== */
+        .widget-toggle-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
+            color: white;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg), 0 0 0 0 rgba(26, 35, 126, 0.4);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            animation: widgetPulse 3s ease-in-out infinite;
+        }
+
+        .widget-toggle-btn:hover {
+            transform: scale(1.08);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .widget-toggle-btn .icon-chat,
+        .widget-toggle-btn .icon-close {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .widget-toggle-btn .icon-close {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+
+        .widget-toggle-btn.active .icon-chat {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.5);
+        }
+
+        .widget-toggle-btn.active .icon-close {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        .widget-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: badgeBounce 2s ease-in-out infinite;
+        }
+
+        /* ===== Widget Popup ===== */
+        .widget-popup {
+            position: fixed;
+            bottom: 96px;
+            right: 24px;
+            width: 360px;
+            height: 480px;
+            max-height: calc(100vh - 120px);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            animation: widgetSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .widget-popup.active {
+            display: flex;
+        }
+
+        /* Widget Header */
+        .widget-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .widget-header-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            padding: 3px;
+            flex-shrink: 0;
+        }
+
+        .widget-header-logo img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .widget-header-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .widget-header-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .widget-header-status .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        .widget-header-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .widget-header-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .widget-header-actions {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .widget-header-expand {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .widget-header-expand:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .widget-popup.maximized {
+            width: 100% !important;
+            height: 100% !important;
+            bottom: 0 !important;
+            right: 0 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            z-index: 99999 !important;
+            max-width: none !important;
+            max-height: none !important;
+            animation: none !important;
+        }
+
+        .widget-popup.maximized .icon-expand {
+            display: none !important;
+        }
+
+        .widget-popup:not(.maximized) .icon-minimize {
+            display: none !important;
+        }
+
+        /* Widget Messages */
+        .widget-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        .widget-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .widget-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .widget-messages::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .widget-msg {
+            display: flex;
+            gap: 8px;
+            max-width: 88%;
+            animation: msgFadeIn 0.3s ease-out;
+        }
+
+        .widget-msg.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .widget-msg-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .widget-msg-avatar.bot {
+            background: linear-gradient(135deg, rgba(26, 35, 126, 0.1), rgba(26, 35, 126, 0.05));
+        }
+
+        .widget-msg-avatar.bot img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .widget-msg-avatar.user {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+            color: white;
+        }
+
+        .widget-msg-bubble {
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .widget-msg.bot .widget-msg-bubble {
+            background: #ffffff;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-top-left-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .widget-msg.user .widget-msg-bubble {
+            background: var(--primary-blue);
+            color: white;
+            border-top-right-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .widget-msg-bubble a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        .widget-msg-bubble strong {
+            font-weight: 600;
+        }
+
+        /* Widget Typing Indicator */
+        .widget-typing {
+            display: none;
+            gap: 8px;
+            max-width: 88%;
+            align-items: flex-end;
+        }
+
+        .widget-typing.active {
+            display: flex;
+        }
+
+        .widget-typing-dots {
+            padding: 10px 14px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            border-top-left-radius: 2px;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .widget-typing-dots .thinking-text {
+            font-size: 13.5px;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-right: 6px;
+        }
+
+        .widget-typing-dots .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #e91e63;
+            animation: typingBounce 1.4s ease-in-out infinite;
+        }
+
+        .widget-typing-dots .dot:nth-child(2) { animation-delay: 0.2s; }
+        .widget-typing-dots .dot:nth-child(3) { animation-delay: 0.4s; }
+        .widget-typing-dots .dot:nth-child(4) { animation-delay: 0.6s; }
+
+        /* Widget Welcome */
+        .widget-welcome {
+            text-align: center;
+            padding: 24px 20px;
+        }
+
+        .widget-welcome img {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 12px;
+        }
+
+        .widget-welcome h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .widget-welcome p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .widget-welcome-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .widget-welcome-chip {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .widget-welcome-chip:hover {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        /* Widget Input */
+        .widget-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+            background: var(--bg-secondary);
+        }
+
+        .widget-input {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: var(--transition);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .widget-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+        }
+
+        .widget-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .widget-send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .widget-send-btn:hover {
+            transform: scale(1.08);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .widget-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes widgetPulse {
+            0%, 100% { box-shadow: var(--shadow-lg), 0 0 0 0 rgba(26, 35, 126, 0.4); }
+            50% { box-shadow: var(--shadow-lg), 0 0 0 12px rgba(26, 35, 126, 0); }
+        }
+
+        @keyframes badgeBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @keyframes widgetSlideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes msgFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .demo-nav { padding: 12px 20px; }
+            .demo-nav-links { display: none; }
+            .demo-hero { padding: 48px 20px 64px; }
+            .demo-hero-stats { gap: 24px; flex-wrap: wrap; }
+            .demo-stat-value { font-size: 28px; }
+            .demo-cards { padding: 40px 20px 60px; }
+            .demo-cards-grid { grid-template-columns: 1fr; }
+
+            /* Mobile: neat bottom sheet */
+            .widget-popup {
+                width: 100vw;
+                height: 65vh;
+                max-height: 65vh;
+                right: 0;
+                bottom: 0;
+                border-radius: 20px 20px 0 0;
+                border-left: none;
+                border-right: none;
+                border-bottom: none;
+            }
+
+            .widget-toggle-btn {
+                bottom: 20px;
+                right: 16px;
+                width: 52px;
+                height: 52px;
+            }
+
+            /* Hide expand btn on mobile */
+            .widget-header-expand {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Demo Page Content ===== -->
+    <header class="demo-header">
+        <nav class="demo-nav">
+            <a href="https://loyolacollege.edu" class="demo-nav-logo" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; padding: 4px 0;">
+                <img src="assets/header_logo.png" alt="Loyola College" style="height: 52px; width: auto; object-fit: contain;">
+            </a>
+            <div class="demo-nav-links">
+                <a href="#">About</a>
+                <a href="#">Academics</a>
+                <a href="#">Admissions</a>
+                <a href="#">Campus Life</a>
+                <a href="#">Research</a>
+                <a href="#">Contact</a>
+                <a href="chat.html" style="background: rgba(255, 193, 7, 0.2); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255, 193, 7, 0.4); color: var(--accent-gold-light); font-weight: 600;">💬 Full Chat</a>
+            </div>
+        </nav>
+
+        <section class="demo-hero">
+            <div class="demo-hero-badge">
+                <span>✨</span>
+                Autonomous Institution - NAAC A++ Accredited
+            </div>
+            <h1>Welcome to<br><span>Loyola College, Chennai</span></h1>
+            <p>Established in 1925 by the Society of Jesus, Loyola College is one of India's most prestigious institutions of higher education, nurturing leaders with values, knowledge, and integrity.</p>
+            <div class="demo-hero-stats">
+                <div class="demo-stat">
+                    <div class="demo-stat-value">99+</div>
+                    <div class="demo-stat-label">Years of Excellence</div>
+                </div>
+                <div class="demo-stat">
+                    <div class="demo-stat-value">12,000+</div>
+                    <div class="demo-stat-label">Students</div>
+                </div>
+                <div class="demo-stat">
+                    <div class="demo-stat-value">150+</div>
+                    <div class="demo-stat-label">Programmes</div>
+                </div>
+                <div class="demo-stat">
+                    <div class="demo-stat-value">A++</div>
+                    <div class="demo-stat-label">NAAC Grade</div>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <section class="demo-cards">
+        <h2 class="demo-cards-title">Explore Loyola</h2>
+        <p class="demo-cards-subtitle">Discover what makes Loyola College a world-class institution</p>
+        <div class="demo-cards-grid">
+            <div class="demo-card">
+                <div class="demo-card-icon">🎓</div>
+                <h3>Academic Excellence</h3>
+                <p>Over 150 undergraduate, postgraduate, and doctoral programmes across arts, science, commerce, and social sciences with distinguished faculty.</p>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-icon">🏛️</div>
+                <h3>Heritage Campus</h3>
+                <p>A sprawling 48-acre campus in the heart of Chennai with modern laboratories, libraries, and world-class sports facilities since 1925.</p>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-icon">💼</div>
+                <h3>Top Placements</h3>
+                <p>Consistently ranked among the top colleges for placements with leading recruiters from Fortune 500 companies visiting every year.</p>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-icon">🌍</div>
+                <h3>Global Network</h3>
+                <p>Part of the worldwide Jesuit educational network with international collaborations, exchange programmes, and a vibrant alumni community.</p>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-icon">🔬</div>
+                <h3>Research & Innovation</h3>
+                <p>State-of-the-art research centres, funded projects, and publications in leading journals across multiple disciplines.</p>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-icon">🤝</div>
+                <h3>Values & Service</h3>
+                <p>Rooted in Jesuit values of service, social justice, and holistic development — shaping leaders who make a difference.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="demo-footer">
+        <p>&copy; 2026 Loyola College, Chennai. All Rights Reserved. | Sterling Road, Nungambakkam, Chennai - 600034</p>
+    </footer>
+
+    <!-- ===== Floating Chat Widget ===== -->
+
+    <!-- Toggle Button -->
+    <button class="widget-toggle-btn" id="widget-toggle-btn" aria-label="Open AI Assistant">
+        <span class="icon-chat">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+        </span>
+        <span class="icon-close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </span>
+        <span class="widget-badge" id="widget-badge">1</span>
+    </button>
+
+    <!-- Widget Popup -->
+    <div class="widget-popup" id="widget-popup">
+        <!-- Widget Header -->
+        <div class="widget-header">
+            <div class="widget-header-logo">
+                <img src="assets/logo.png" alt="Loyola" onerror="this.style.display='none'">
+            </div>
+            <div class="widget-header-info">
+                <h3>Loyola AI Assistant</h3>
+                <div class="widget-header-status">
+                    <span class="status-dot"></span>
+                    Online — Ready to help
+                </div>
+            </div>
+            <div class="widget-header-actions">
+                <button class="widget-header-expand" id="widget-expand-btn" aria-label="Toggle full screen" title="Toggle full screen">
+                    <svg class="icon-expand" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                    </svg>
+                    <svg class="icon-minimize" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7"/>
+                    </svg>
+                </button>
+                <button class="widget-header-close" id="widget-close-btn" aria-label="Close chat" title="Close chat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Widget Messages Area -->
+        <div class="widget-messages" id="widget-messages">
+            <!-- Welcome message inserted by JS -->
+        </div>
+
+        <!-- Widget Typing Indicator -->
+        <div class="widget-typing" id="widget-typing">
+            <div class="widget-msg-avatar bot">
+                <img src="assets/logo.png" alt="Loyola" onerror="this.style.display='none'" style="width:100%;height:100%;border-radius:50%;object-fit:contain;">
+            </div>
+            <div class="widget-typing-dots">
+                <span class="thinking-text">Thinking</span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Widget Input Area -->
+        <div class="widget-input-area">
+            <input type="text" class="widget-input" id="widget-input" placeholder="Ask me anything..." autocomplete="off" maxlength="500">
+            <button class="widget-send-btn" id="widget-send-btn" aria-label="Send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== Dependencies ===== -->
+    <script>window.__ENV__ = window.__ENV__ || {};</script>
+    <script src="js/env.js" onerror="/* local env.js is optional in git/production */"></script>
+    <script src="js/config.js"></script>
+    <script src="js/knowledge-base.js"></script>
+    <script src="js/search-engine.js"></script>
+    <script src="js/ai-provider.js"></script>
+
+    <!-- ===== Widget Script ===== -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ---- DOM References ----
+        const toggleBtn = document.getElementById('widget-toggle-btn');
+        const popup = document.getElementById('widget-popup');
+        const closeBtn = document.getElementById('widget-close-btn');
+        const expandBtn = document.getElementById('widget-expand-btn');
+        const messagesArea = document.getElementById('widget-messages');
+        const inputField = document.getElementById('widget-input');
+        const sendBtn = document.getElementById('widget-send-btn');
+        const badge = document.getElementById('widget-badge');
+        const typingIndicator = document.getElementById('widget-typing');
+
+        let isOpen = false;
+        let isProcessing = false;
+        let hasOpened = false;
+        let aiProvider = null;
+
+        // Initialize AI Provider
+        try {
+            aiProvider = new AIProvider();
+        } catch (e) {
+            console.error('Widget: Failed to initialize AIProvider:', e);
+        }
+
+        // ---- Toggle Widget ----
+        function toggleWidget() {
+            isOpen = !isOpen;
+            toggleBtn.classList.toggle('active', isOpen);
+            popup.classList.toggle('active', isOpen);
+
+            if (isOpen) {
+                // Hide badge
+                badge.style.display = 'none';
+
+                // Show welcome on first open
+                if (!hasOpened) {
+                    hasOpened = true;
+                    showWelcome();
+                }
+
+                // Focus input
+                setTimeout(() => inputField.focus(), 300);
+            }
+        }
+
+        toggleBtn.addEventListener('click', toggleWidget);
+        closeBtn.addEventListener('click', toggleWidget);
+
+        // ---- Show Welcome Message ----
+        function showWelcome() {
+            const welcomeEl = document.createElement('div');
+            welcomeEl.className = 'widget-welcome';
+            welcomeEl.id = 'widget-welcome';
+            welcomeEl.innerHTML = `
+                <img src="assets/logo.png" alt="Loyola" onerror="this.style.display='none'">
+                <h3>Loyola AI Assistant</h3>
+                <p>Hello! 👋 I'm here to help you with information about Loyola College, Chennai. Ask me anything!</p>
+                <div class="widget-welcome-chips">
+                    <button class="widget-welcome-chip" data-q="How do I apply for admission?">🎓 Admissions</button>
+                    <button class="widget-welcome-chip" data-q="What courses are offered?">📚 Courses</button>
+                    <button class="widget-welcome-chip" data-q="Tell me about placements.">💼 Placements</button>
+                    <button class="widget-welcome-chip" data-q="What are the hostel facilities?">🏠 Hostel</button>
+                    <button class="widget-welcome-chip" data-q="How can I contact the college?">📞 Contact</button>
+                    <button class="widget-welcome-chip" data-q="What scholarships are available?">🏆 Scholarships</button>
+                </div>
+            `;
+            messagesArea.appendChild(welcomeEl);
+
+            // Chip click handlers
+            welcomeEl.querySelectorAll('.widget-welcome-chip').forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const question = chip.getAttribute('data-q');
+                    if (question) handleWidgetSend(question);
+                });
+            });
+        }
+
+        // ---- Add Message ----
+        function addWidgetMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `widget-msg ${sender}`;
+
+            const avatarHTML = sender === 'bot'
+                ? `<div class="widget-msg-avatar bot"><img src="assets/logo.png" alt="Loyola" onerror="this.style.display='none'"></div>`
+                : `<div class="widget-msg-avatar user">
+                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                           <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                       </svg>
+                   </div>`;
+
+            // Format the text
+            let formatted = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Markdown links
+            formatted = formatted.replace(
+                /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+                '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+            );
+
+            // Bare URLs
+            formatted = formatted.replace(
+                /(?<!href="|">)(https?:\/\/[^\s<)]+)/g,
+                '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+            );
+
+            // Bold
+            formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+            // Newlines
+            formatted = formatted.replace(/\n/g, '<br>');
+
+            msgDiv.innerHTML = `
+                ${avatarHTML}
+                <div class="widget-msg-bubble">${formatted}</div>
+            `;
+
+            messagesArea.appendChild(msgDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        // ---- Render Suggestions ----
+        function renderWidgetSuggestions(suggestions) {
+            const existing = document.querySelectorAll('.widget-msg-suggestions');
+            existing.forEach(el => el.remove());
+
+            const sugDiv = document.createElement('div');
+            sugDiv.className = 'widget-msg-suggestions';
+            sugDiv.style.display = 'flex';
+            sugDiv.style.flexWrap = 'wrap';
+            sugDiv.style.gap = '8px';
+            sugDiv.style.margin = '4px 0 12px 36px';
+            sugDiv.style.animation = 'msgFadeIn 0.3s ease-out';
+
+            suggestions.forEach(sug => {
+                const btn = document.createElement('button');
+                btn.className = 'widget-suggestion-btn';
+                btn.innerText = sug;
+                btn.style.background = '#ffffff';
+                btn.style.border = '1px solid var(--border-color)';
+                btn.style.borderRadius = '12px';
+                btn.style.padding = '6px 12px';
+                btn.style.fontSize = '12px';
+                btn.style.cursor = 'pointer';
+                btn.style.color = 'var(--primary-blue)';
+                btn.style.fontWeight = '500';
+                btn.style.transition = 'var(--transition)';
+                btn.style.boxShadow = 'var(--shadow-sm)';
+                
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.borderColor = 'var(--accent-gold)';
+                    btn.style.background = 'rgba(26, 35, 126, 0.03)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.borderColor = 'var(--border-color)';
+                    btn.style.background = '#ffffff';
+                });
+
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    sugDiv.remove();
+                    handleWidgetSend(sug);
+                });
+
+                sugDiv.appendChild(btn);
+            });
+
+            messagesArea.appendChild(sugDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        // ---- Handle Send ----
+        async function handleWidgetSend(overrideText) {
+            const text = overrideText || inputField.value.trim();
+            if (!text || isProcessing) return;
+
+            inputField.value = '';
+            isProcessing = true;
+            sendBtn.disabled = true;
+
+            // Remove welcome if present
+            const welcome = document.getElementById('widget-welcome');
+            if (welcome) {
+                welcome.style.opacity = '0';
+                welcome.style.transition = 'opacity 0.2s ease';
+                setTimeout(() => welcome.remove(), 200);
+            }
+
+            // Add user message
+            addWidgetMessage(text, 'user');
+
+            // Show typing
+            typingIndicator.classList.add('active');
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+
+            // Get response
+            let responseText = "I'm sorry, I'm having trouble connecting. Please try again later.";
+            let suggestions = [];
+            try {
+                if (aiProvider) {
+                    const response = await aiProvider.getResponse(text);
+                    responseText = response.answer || responseText; // ✅ use .answer
+                    suggestions = response.suggestions || [];
+                }
+            } catch (error) {
+                console.error('Widget AI error:', error);
+                responseText = "I'm sorry, I encountered an error. Please visit loyolacollege.edu for help.";
+            }
+
+            // Hide typing, show response
+            typingIndicator.classList.remove('active');
+            addWidgetMessage(responseText, 'bot');
+
+            // Show follow-up suggestions if any
+            if (suggestions && suggestions.length > 0) {
+                renderWidgetSuggestions(suggestions);
+            }
+
+            isProcessing = false;
+            sendBtn.disabled = false;
+            inputField.focus();
+        }
+
+        // ---- Event Listeners ----
+        sendBtn.addEventListener('click', () => handleWidgetSend());
+
+        inputField.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleWidgetSend();
+            }
+        });
+
+        if (expandBtn) {
+            expandBtn.addEventListener('click', () => {
+                popup.classList.toggle('maximized');
+                setTimeout(() => {
+                    messagesArea.scrollTop = messagesArea.scrollHeight;
+                }, 100);
+            });
+        }
+
+        // Close widget when clicking outside
+        document.addEventListener('click', (e) => {
+            if (isOpen && !popup.contains(e.target) && !toggleBtn.contains(e.target)) {
+                toggleWidget();
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isOpen) {
+                toggleWidget();
+            }
+        });
+
+    })();
+    </script>
+
+</body>
+</html>
+
+

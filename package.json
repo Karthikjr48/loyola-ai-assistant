@@ -1,0 +1,31 @@
+{
+  "name": "loyola-ai-assistant",
+  "version": "1.0.0",
+  "description": "Intelligent AI Assistant & Interactive Floating Widget for Loyola College, Chennai. Built with vanilla JavaScript, Groq LLaMA-3.1, Gemini, and comprehensive offline Knowledge Base.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "loyola-college",
+    "chennai",
+    "ai-assistant",
+    "chatbot",
+    "widget",
+    "groq",
+    "llama3",
+    "gemini",
+    "knowledge-base"
+  ],
+  "author": "Loyola Ignatius Karthik <loyolaignatiuskarthik@gmail.com> (https://github.com/Karthikjr48)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Karthikjr48/loyola-ai-assistant.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Karthikjr48/loyola-ai-assistant/issues"
+  },
+  "homepage": "https://github.com/Karthikjr48/loyola-ai-assistant#readme"
+}
