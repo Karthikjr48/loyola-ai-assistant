@@ -18,6 +18,12 @@
   <img src="https://img.shields.io/badge/Frontend-Vanilla%20JS%20%7C%20CSS3%20%7C%20HTML5-yellow" alt="Frontend"></a>
 </p>
 
+<p align="center">
+  <a href="https://chatbotloyola.pages.dev/"><strong>🚀 Open Live Hosted Demo (Cloudflare Pages)</strong></a>
+  &nbsp;&bull;&nbsp;
+  <a href="https://chatbotloyola.pages.dev/chat.html"><strong>💬 Fullscreen Dedicated Chat</strong></a>
+</p>
+
 ---
 
 ## 🌟 Overview
